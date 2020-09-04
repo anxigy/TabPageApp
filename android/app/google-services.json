@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1092778813832",
+    "firebase_url": "https://pageapp-713f2.firebaseio.com",
+    "project_id": "pageapp-713f2",
+    "storage_bucket": "pageapp-713f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092778813832:android:aacad0504781e67691323d",
+        "android_client_info": {
+          "package_name": "com.tabpageapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092778813832-urd37qs7jltc1jl7f94lpn063o65jthu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tabpageapp",
+            "certificate_hash": "311b4e531d7e05a683ce7d81002fa90cd9c38290"
+          }
+        },
+        {
+          "client_id": "1092778813832-00a0rou1p43hl42j545b3nk11o3k8mj3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnFV5DYQaMol_8Qy9MFQB3Wt-mm7S8kVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092778813832-00a0rou1p43hl42j545b3nk11o3k8mj3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1092778813832-3u851bm0q8d72vgtkk591ju4hounjmn0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io-github.TabPageApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
