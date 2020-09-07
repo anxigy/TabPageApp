@@ -7,12 +7,10 @@ import {
   Text,
   StatusBar,
   Platform,
-  PermissionsAndroid,
-  Alert
+  PermissionsAndroid
 } from 'react-native';
 import NaverMapView, {Marker, Circle} from 'react-native-nmap'
 import Geolocation from 'react-native-geolocation-service'
-import BackgroundFetch from 'react-native-background-fetch'
 import Boundary, { Events } from 'react-native-boundary';
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -70,11 +68,12 @@ const Page3 = () => {
       startOnBoot: false,
       stopOnTerminate: true,
       locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
-      interval: 20000,
-      fastestInterval: 20000,
-      activitiesInterval: 20000,
+      interval: 10000,
+      fastestInterval: 10000,
+      activitiesInterval: 10000,
       stopOnStillActivity: false,
     });
+
     Boundary.add({
       lat: 37.894877,
       lng: 127.058664,
@@ -83,8 +82,9 @@ const Page3 = () => {
     })
     .then(() => console.log("success!"))
     .catch(e=>console.log(e));
+
    if(hasLocationPermission()) {
-    // getCurrentPosition()
+
     // on location update
     BackgroundGeolocation.on('location', location => {
       console.log('[DEBUG] BackgroundGeolocation location', location);
@@ -150,42 +150,15 @@ const Page3 = () => {
       }))
     })
 
-  //  return () => {
-  //   Boundary.off(Events.ENTER)
-  //   Boundary.off(Events.EXIT)
-
-  //   Boundary.remove('Chipotle')
-  //     .then(() => console.log('Goodbye Chipotle :('))
-  //     .catch(e => console.log('Failed to delete Chipotle :)', e));
-    // }
-      // const _watchId = Geolocation.watchPosition(
-      //   position => {
-      //     const {latitude, longitude} = position.coords;
-      //     setState(state => ({
-      //       ...state,
-      //       lat: latitude,
-      //       log: longitude
-      //     }))
-      //   },
-      //   error => {
-      //     console.log(error)
-      //   },
-      //   {
-      //     enableHighAccuracy: true,
-      //     distanceFilter: 0,
-      //     interval: 5000,
-      //     fastestInterval: 2000
-      //   }
-      // );
-      return () => {
-        BackgroundGeolocation.events.forEach(event =>
-          BackgroundGeolocation.removeAllListeners(event)
-        );
-      }
+    return () => {
+      BackgroundGeolocation.events.forEach(event =>
+        BackgroundGeolocation.removeAllListeners(event)
+      );
     }
+  }
   },[]);
+  // Cluster Zone Location
   const P0 = {latitude: 37.894877, longitude: 127.058664};
-  // getCurrentPosition()
   return (
     <View style={styles.container}>
       { state.latitude && (

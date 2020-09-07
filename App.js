@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Page1 from './src/Page1'
 import Page2 from './src/Page2'
-import Page3 from './src/Page3'
+import MapPage from './src/page/mapPage'
 import Home from './src/index'
 import WifiPage from './src/wifiPage';
 import SocialPage from './src/page/socialPage';
@@ -22,8 +22,8 @@ const StackComponent = () => {
     <Stack.Navigator initialRouteName="Menu">
       <Stack.Screen name="Menu" component={Page1} /> 
       <Stack.Screen 
-        name="Page3" 
-        component={Page3}
+        name="MapPage" 
+        component={MapPage}
       /> 
       <Stack.Screen 
         name="SocialPage" 

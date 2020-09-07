@@ -40,7 +40,7 @@ const Page1 = (props) => {
 
         <TouchableOpacity 
           style={styles.button}
-            onPress={() => goToPage('Page3')}
+            onPress={() => goToPage('MapPage')}
             hitSlop={{top: 7, right: 7, bottom: 7, left: 7}}
           >
             <Ionicons name='map-outline' size={30} color ={'green'}  style={{marginRight: 20}}/>
