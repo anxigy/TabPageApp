@@ -7,54 +7,69 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Page1 = (props) => {
   const goToPage = (name) => {
-    props.navigation.navigate(name)
-  }
+    props.navigation.navigate(name);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text>Page1</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.button}
           onPress={() => goToPage('SocialPage')}
-          hitSlop={{top: 7, right: 7, bottom: 7, left: 7}}
-        >
-          <Ionicons name='logo-facebook' size={30} color={'#4267B2'} style={{marginRight: 20}}/>
+          hitSlop={{top: 7, right: 7, bottom: 7, left: 7}}>
+          <Ionicons
+            name="logo-facebook"
+            size={30}
+            color={'#4267B2'}
+            style={{marginRight: 20}}
+          />
           <Text>Social Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-            style={styles.button}
-            onPress={() => goToPage('WifiPage')}
-            hitSlop={{top: 7, right: 7, bottom: 7, left: 7}}
-          >
-            <Ionicons name='wifi-outline' size={30} color={'red'} style={{marginRight: 20}}/>
-            <Text>Get MacAddress</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => goToPage('WifiPage')}
+          hitSlop={{top: 7, right: 7, bottom: 7, left: 7}}>
+          <Ionicons
+            name="wifi-outline"
+            size={30}
+            color={'red'}
+            style={{marginRight: 20}}
+          />
+          <Text>Get MacAddress</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.button}
-            onPress={() => goToPage('MapPage')}
-            hitSlop={{top: 7, right: 7, bottom: 7, left: 7}}
-          >
-            <Ionicons name='map-outline' size={30} color ={'green'}  style={{marginRight: 20}}/>
-            <Text>Location Map</Text>
-          </TouchableOpacity>
+          onPress={() => goToPage('MapPage')}
+          hitSlop={{top: 7, right: 7, bottom: 7, left: 7}}>
+          <Ionicons
+            name="map-outline"
+            size={30}
+            color={'green'}
+            style={{marginRight: 20}}
+          />
+          <Text>Location Map</Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity 
+        <TouchableOpacity
           style={styles.button}
-            onPress={() => goToPage('TaskPage')}
-            hitSlop={{top: 7, right: 7, bottom: 7, left: 7}}
-          >
-            <Ionicons name='refresh-outline' size={30} style={{marginRight: 20}}/>
-            <Text>Background Task</Text>
-          </TouchableOpacity>
+          onPress={() => goToPage('TaskPage')}
+          hitSlop={{top: 7, right: 7, bottom: 7, left: 7}}>
+          <Ionicons
+            name="refresh-outline"
+            size={30}
+            style={{marginRight: 20}}
+          />
+          <Text>Background Task</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -62,19 +77,19 @@ const Page1 = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   titleContainer: {
     height: 200,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  buttonContainer:{
+  buttonContainer: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  button:{
-    flexDirection: "row",
+  button: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
@@ -82,7 +97,7 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     width: 300,
     height: 45,
-    marginBottom: 20
+    marginBottom: 20,
   },
   gridContainer: {
     flexWrap: 'wrap',
@@ -91,15 +106,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'stretch',
   },
-  gridItem:{
+  gridItem: {
     backgroundColor: '#fff',
     width: 120,
     height: 120,
     borderWidth: 1,
     borderColor: '#ddd',
     justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+    alignItems: 'center',
+  },
+});
 
 export default Page1;

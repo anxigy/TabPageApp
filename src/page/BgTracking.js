@@ -1,14 +1,14 @@
-import React, { Component, useEffect, useState } from 'react';
-import { Alert, View } from 'react-native';
+import React, {Component, useEffect, useState} from 'react';
+import {Alert, View} from 'react-native';
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 
 const BgTracking = () => {
   const [state, setState] = useState({
     region: null,
     latitude: null,
-    longitude: null
-  })
+    longitude: null,
+  });
   useEffect(() => {
     BackgroundGeolocation.configure({
       desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
@@ -24,13 +24,24 @@ const BgTracking = () => {
       fastestInterval: 5000,
       activitiesInterval: 10000,
       stopOnStillActivity: false,
+      url: 'http://192.168.0.97:3000/location',
+      syncUrl: 'http://192.168.0.97:3000/sync',
+      syncThreshold: 100,
+      httpHeaders: {
+        'X-FOO': 'bar',
+      },
+      // customize post properties
+      postTemplate: {
+        lat: '@latitude',
+        lon: '@longitude',
+      },
     });
 
     // on location update
-    BackgroundGeolocation.on('location', location => {
+    BackgroundGeolocation.on('location', (location) => {
       console.log('[DEBUG] BackgroundGeolocation location', location);
-      BackgroundGeolocation.startTask(taskKey => {
-        setState(state => ({
+      BackgroundGeolocation.startTask((taskKey) => {
+        setState((state) => ({
           ...state,
           latitude: location.latitude,
           longitude: location.longitude,
@@ -51,25 +62,30 @@ const BgTracking = () => {
     BackgroundGeolocation.on('start', () => {
       // console.log('[INFO] BackgroundGeolocation service has been started');
 
-      BackgroundGeolocation.getCurrentLocation(location => {
-        const longitudeDelta = 0.01;
-        const latitudeDelta = 0.01;
-        const region = Object.assign({}, location, {
-          latitudeDelta,
-          longitudeDelta
-        }); 
-        setState(state => ({
-          ...state,
-          latitude: location.latitude,
-          longitude: location.longitude,
-          region: region
-        }));
-      }, (error) => {
-        setTimeout(() => {
-          Alert.alert('Error obtaining current location', JSON.stringify(error));
-        }, 100);
-      });
-
+      BackgroundGeolocation.getCurrentLocation(
+        (location) => {
+          const longitudeDelta = 0.01;
+          const latitudeDelta = 0.01;
+          const region = Object.assign({}, location, {
+            latitudeDelta,
+            longitudeDelta,
+          });
+          setState((state) => ({
+            ...state,
+            latitude: location.latitude,
+            longitude: location.longitude,
+            region: region,
+          }));
+        },
+        (error) => {
+          setTimeout(() => {
+            Alert.alert(
+              'Error obtaining current location',
+              JSON.stringify(error),
+            );
+          }, 100);
+        },
+      );
     });
 
     BackgroundGeolocation.on('stop', () => {
@@ -77,14 +93,41 @@ const BgTracking = () => {
     });
 
     BackgroundGeolocation.on('authorization', (status) => {
-      console.log('[INFO] BackgroundGeolocation authorization status: ' + status);
+      console.log(
+        '[INFO] BackgroundGeolocation authorization status: ' + status,
+      );
       if (status !== BackgroundGeolocation.AUTHORIZED) {
         // we need to set delay or otherwise alert may not be shown
-        setTimeout(() =>
-          Alert.alert('App requires location tracking permission', 'Would you like to open app settings?', [
-            { text: 'Yes', onPress: () => BackgroundGeolocation.showAppSettings() },
-            { text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel' }
-          ]), 1000);
+        setTimeout(
+          () =>
+            Alert.alert(
+              'App requires location tracking permission',
+              'Would you like to open app settings?',
+              [
+                {
+                  text: 'Yes',
+                  onPress: () => BackgroundGeolocation.showAppSettings(),
+                },
+                {
+                  text: 'No',
+                  onPress: () => console.log('No Pressed'),
+                  style: 'cancel',
+                },
+                ,
+              ],
+            ),
+          1000,
+        );
+      }
+    });
+
+    BackgroundGeolocation.headlessTask(async (event) => {
+      console.log('headless Teask');
+      if (event.name === 'location' || event.name === 'stationary') {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://192.168.0.97:3000/headless');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(event.params));
       }
     });
 
@@ -96,10 +139,18 @@ const BgTracking = () => {
       console.log('[INFO] App is in foreground');
     });
 
-    BackgroundGeolocation.checkStatus(status => {
-      console.log('[INFO] BackgroundGeolocation service is running', status.isRunning);
-      console.log('[INFO] BackgroundGeolocation services enabled', status.locationServicesEnabled);
-      console.log('[INFO] BackgroundGeolocation auth status: ' + status.authorization);
+    BackgroundGeolocation.checkStatus((status) => {
+      console.log(
+        '[INFO] BackgroundGeolocation service is running',
+        status.isRunning,
+      );
+      console.log(
+        '[INFO] BackgroundGeolocation services enabled',
+        status.locationServicesEnabled,
+      );
+      console.log(
+        '[INFO] BackgroundGeolocation auth status: ' + status.authorization,
+      );
 
       // you don't need to check status before start (this is just the example)
       if (!status.isRunning) {
@@ -109,40 +160,41 @@ const BgTracking = () => {
 
     // you can also just start without checking for status
     // BackgroundGeolocation.start();
-    return (() => {
-      BackgroundGeolocation.events.forEach(event =>
-        BackgroundGeolocation.removeAllListeners(event)
+    return () => {
+      BackgroundGeolocation.events.forEach((event) =>
+        BackgroundGeolocation.removeAllListeners(event),
       );
-    })
-  },[])
+    };
+  }, []);
 
-//   initialRegion={{
-//     latitude: 37.894877,
-//     longitude: 127.058664,
-//     latitudeDelta: 0.022,
-//     longitudeDelta: 0.021,
-//  }}
+  //   initialRegion={{
+  //     latitude: 37.894877,
+  //     longitude: 127.058664,
+  //     latitudeDelta: 0.022,
+  //     longitudeDelta: 0.021,
+  //  }}
 
   return (
     <View style={{flex: 1}}>
-      {state.region &&  (
+      {state.region && (
         <MapView
-        initialRegion={{
-          latitude: state.latitude,
-          longitude: state.longitude,
-          latitudeDelta: state.region.latitudeDelta,
-          longitudeDelta: state.region.longitudeDelta
-        }}
-        style={{flex: 1}}
-      >
-        <Marker coordinate={{
-          latitude: state.latitude,
-          longitude: state.longitude,
-        }}/>
-      </MapView>
+          initialRegion={{
+            latitude: state.latitude,
+            longitude: state.longitude,
+            latitudeDelta: state.region.latitudeDelta,
+            longitudeDelta: state.region.longitudeDelta,
+          }}
+          style={{flex: 1}}>
+          <Marker
+            coordinate={{
+              latitude: state.latitude,
+              longitude: state.longitude,
+            }}
+          />
+        </MapView>
       )}
     </View>
-  )
-}
+  );
+};
 
 export default BgTracking;
